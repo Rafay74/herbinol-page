@@ -53,11 +53,12 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.2;
   -webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .scene svg{display:block;width:100%;height:100%;overflow:visible}
 .scene>svg{display:none}
+.main-bottle>svg{display:block;width:0;height:0}
 .main-bottle{--main-bottle-width:min(42vw,181px);position:relative;width:var(--main-bottle-width);height:min(46vh,430px);height:min(46dvh,430px);max-width:calc(100% - 2rem);max-height:100%;justify-self:center;align-self:center;opacity:0;transform:translateY(40px) scale(.94);filter:drop-shadow(0 28px 34px rgba(0,0,0,.5))}
 .main-bottle img{display:block;width:100%;height:auto;max-width:none}
 .main-body{margin-top:calc(var(--main-bottle-width)*109/434)}
 .main-cap{position:absolute;left:0;top:0;z-index:3;transform-origin:20% 100%;filter:drop-shadow(0 10px 14px rgba(0,0,0,.45))}
-.main-mouth{position:absolute;left:50%;top:calc(min(42vw,181px)*100/434);width:0;height:0;z-index:2}
+.main-mouth{position:absolute;left:50%;top:calc(var(--main-bottle-width)*100/434);width:0;height:0;z-index:2}
 .main-glow{position:absolute;left:-26vmin;top:-26vmin;width:52vmin;height:52vmin;border-radius:50%;background:radial-gradient(circle,rgba(247,181,0,.55),rgba(247,181,0,0) 65%);opacity:0}
 .main-p{position:absolute;left:0;top:0;width:var(--s);height:var(--s);opacity:0;filter:blur(var(--b,0px));color:var(--c)}
 .main-p svg{width:100%;height:100%;overflow:visible}
@@ -75,6 +76,12 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.2;
 }
 @media (max-height:520px){
   .main-bottle{--main-bottle-width:min(32vw,145px);height:min(50dvh,300px)}
+}
+@media (max-width:600px){
+  body::after{display:none}
+  .motes{display:none}
+  .corner{animation:none!important;opacity:.35}
+  .glow{animation:none;opacity:.8}
 }
 
 /* ---------- intro: bottle rises, cap flips, herbs bloom out of the opening ---------- */
@@ -250,6 +257,7 @@ h1{margin:0;font:400 clamp(1.6rem,1.05rem + 2.3vw,2.55rem)/1.12 "Young Serif",Ge
 
 <script>
 (function(){
+  if(document.querySelector('.main-bottle')) return;
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) return;
 
@@ -345,7 +353,7 @@ h1{margin:0;font:400 clamp(1.6rem,1.05rem + 2.3vw,2.55rem)/1.12 "Young Serif",Ge
   }
   function createHerbs(){
     herbs.innerHTML='';
-    var width=innerWidth,height=innerHeight,count=width<600?44:72;
+    var width=innerWidth,height=innerHeight,count=width<600?18:48;
     for(var i=0;i<count;i++){
       var kind=pick(),far=Math.random()<.25,size=far?52+Math.random()*34:20+Math.random()*28;
       var side=Math.random()<.5?-1:1,x=side*(40+Math.random()*Math.min(width*.44,560));
